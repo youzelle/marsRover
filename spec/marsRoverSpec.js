@@ -1,117 +1,101 @@
-var Rover = require('../src/marsRover');
-// var Test = require('../index.js');
+let Input = require('../src/input');
+let Rover = require('../src/rover');
+let Plateau = require('../src/plateau');
+let Deploy = require('../src/deploy');
+let Instructions = require('../src/instructions');
 
-describe("Valid Input", function() {
-	var rover;
-	beforeEach(function() {
-	rover = new Rover('5 5', '3 3 E', 'MMRMMMMRMRRM');
-   }) 
+describe("Rover Methods", function() { 
 
-  describe("Rover Location Input", function() {
-
-    it("Location is two digits and a letter", function() {
-      expect(rover.xCoordinate).toEqual(3);
-      expect(rover.yCoordinate).toEqual(3);
-      expect(rover.orientation).toEqual('E');
-    });
-  });
-
-  describe("Rover Gridsize Input", function() {
-
-  	it("Gridsize is two digits", function() {
-  		expect(rover.gridX).toEqual(5);
-  		expect(rover.gridY).toEqual(5);
-  	});
-  });
+  describe("Turning Left", function() {
   
-  describe("Instructions Input", function() {
+      let roverOne = new Rover([1,2], 'N', [[5,5], []]);
+      let roverTwo = new Rover([3,3], 'E', [[5,5], []]);
+      Instructions(roverOne, 'L');
+      Instructions(roverTwo, 'L');
 
-    it("Instructions are a string of characters L, M and R only", function() {
-      expect(rover.instructions).toEqual('MMRMMMMRMRRM');
+    it("Only changes direction", function() {
+      expect(roverOne.xCoordinate).toEqual(1);
+      expect(roverOne.yCoordinate).toEqual(2);
+      expect(roverOne.direction).toEqual('W');
+      expect(roverTwo.xCoordinate).toEqual(3);
+      expect(roverTwo.yCoordinate).toEqual(3);
+      expect(roverTwo.direction).toEqual('N');
     });
   });
+  describe("Turning Right", function() {
+
+      let roverOne = new Rover([1,2], 'N', [[5,5], []]);
+      let roverTwo = new Rover([3,3], 'E', [[5,5], []]);
+      Instructions(roverOne, 'R');
+      Instructions(roverTwo, 'R');
+     
+    it("It should only change direction", function() {
+
+      expect(roverOne.xCoordinate).toEqual(1);
+      expect(roverOne.yCoordinate).toEqual(2);
+      expect(roverOne.direction).toEqual('E');
+      expect(roverTwo.xCoordinate).toEqual(3);
+      expect(roverTwo.yCoordinate).toEqual(3);
+      expect(roverTwo.direction).toEqual('S');
+    });
+  });
+  describe("Moving inside boundary", function() {
+
+      let roverOne = new Rover([1,2], 'N', [[5,5], []]);
+      let roverTwo = new Rover([3,3], 'E', [[5,5], []]);
+      Instructions(roverOne, 'M');
+      Instructions(roverTwo, 'M');
+   
+    it("It should only change coordinates", function() {
+
+      expect(roverOne.xCoordinate).toEqual(1);
+      expect(roverOne.yCoordinate).toEqual(3);
+      expect(roverOne.direction).toEqual('N');
+      expect(roverTwo.xCoordinate).toEqual(4);
+      expect(roverTwo.yCoordinate).toEqual(3);
+      expect(roverTwo.direction).toEqual('E');
+    });
+  });
+  describe("Moving outside the boundary", function() {
+
+    let roverOne = new Rover([1,5], 'N', [[5,5], []]);
+    let roverTwo = new Rover([5,3], 'E', [[5,5], []]);
+    Instructions(roverOne, 'M');
+    Instructions(roverTwo, 'M');
+  
+    it("It should not move", function() {
+
+      expect(roverOne.xCoordinate).toEqual(1);
+      expect(roverOne.yCoordinate).toEqual(5);
+      expect(roverOne.direction).toEqual('N');
+      expect(roverTwo.xCoordinate).toEqual(5);
+      expect(roverTwo.yCoordinate).toEqual(3);
+      expect(roverTwo.direction).toEqual('E');
+    });
+  });
+  describe("Complete execution of instructions", function() {
+
+    let roverOne = new Rover([1,2], 'N', [[5,5], []]);
+    let roverTwo = new Rover([3,3], 'E', [[5,5], []]);
+    Instructions(roverOne, 'LMLMLMLMM');
+    Instructions(roverTwo, 'MMRMMRMRRM');
+  
+    it("It should not move", function() {
+
+      expect(roverOne.xCoordinate).toEqual(1);
+      expect(roverOne.yCoordinate).toEqual(3);
+      expect(roverOne.direction).toEqual('N');
+      expect(roverTwo.xCoordinate).toEqual(5);
+      expect(roverTwo.yCoordinate).toEqual(1);
+      expect(roverTwo.direction).toEqual('E');
+    });
+  });    
 });
 
-describe("Valid Moves", function() { 
 
-  describe("Correct move when facing east, inside grid", function() {
+//tests for obstacles
 
-    it("Increases x coordinate and keeps facing east", function() {
-
-      var rover = new Rover('5 5', '3 3 E', 'M');
-      rover.move();
-      expect(rover.xCoordinate).toEqual(4);
-      expect(rover.yCoordinate).toEqual(3);
-      expect(rover.orientation).toEqual('E')
-    });
-  });
-  describe("Correct move when facing east, at border", function() {
-
-      var rover = new Rover('5 5', '5 3 E', 'M');
-      rover.move();
-    it("Should not increase x, but keep facing east", function() {
-
-      expect(rover.xCoordinate).toEqual(5);
-      expect(rover.yCoordinate).toEqual(3);
-      expect(rover.orientation).toEqual('E')
-    });
-  });
-});
-
-describe("Valid Rotations", function() { 
-
-  describe("Correct orientation change when facing north", function() {
-
-    it("Faces west after left turn", function() {
-
-      var rover = new Rover('5 5', '3 3 N', 'M');
-      rover.rotate('L');
-      expect(rover.orientation).toEqual('W');
-    });
-
-    it("Faces east after right turn", function() {
-
-      var rover = new Rover('5 5', '5 3 N', 'M');
-      rover.rotate('R');
-      expect(rover.orientation).toEqual('E');
-    });
-  });
-
-});
-describe("Valid Execution of Instructions", function() { 
-
-  describe("The output gives correct final position", function() {
-
-    it("Final position is correct", function() {
-
-      var rover = new Rover('5 5', '3 3 E', 'MMRMMRMRRM');
-      expect(rover.executeInstructions()).toEqual('4 3 E');
-    });
-
-    it("Final position is correct", function() {
-
-      var rover = new Rover('5 5', '1 2 N', 'LMLMLMLMM');
-      expect(rover.executeInstructions()).toEqual('0 2 S');
-    });
-  });
-});
+//validate input
 
 
-describe("Turn Left", function() {
-
-
-  describe("command L", function() {
-    var rover = new Rover('5 5', '3 3 N', 'L');
-    it("Should face E", function() {
-      expect(rover.turnLeft()).toEqual("E");
-    })
-  })
-
-  describe("command R", function() {
-    var rover = new Rover('5 5', '3 3 N', 'LL');
-    it("Should face S", function() {
-      expect(rover.turnLeft()).toEqual("E");
-    })
-  })
-
-}) 
+  

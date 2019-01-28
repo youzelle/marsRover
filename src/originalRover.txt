@@ -1,13 +1,10 @@
-const prompts = require('prompts');
-require('colors');
-
 let obstacles = [[2, 2], [3, 1], [5, 3]];
 
 class Rover {
   constructor (gridSize, location, instructions) {
     this.xCoordinate = parseInt(location.split(' ')[0]);
     this.yCoordinate = parseInt(location.split(' ')[1]);
-    this.orientation = location(location.split(' ')[2]);
+    this.orientation = parseInt(location.split(' ')[2]);
     this.gridX = parseInt(gridSize.split(' ')[0]);
     this.gridY = parseInt(gridSize.split(' ')[1]);
     this.instructions = instructions;
