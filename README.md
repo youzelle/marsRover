@@ -2,15 +2,14 @@ A squad of robotic rovers are to be landed by NASA on a plateau on Mars. This pl
 
 A rover’s position and location is represented by a combination of x and y co-ordinates and a letter representing one of the four cardinal compass points. The plateau is divided up into a grid to simplify navigation. An example position might be 0 0 N, which means the rover is in the bottom left corner and facing North.
 
-The rover is controlled by a set of instructions in the form of a simple string of letters. The possible letters are ‘L’, ‘R’ and ‘M’. ‘L’ and ‘R’ makes the rover spin 90 degrees left or right respectively, without moving from its current spot. ‘M’ means move forward one grid point, and maintain the same heading. If an instruction takes the rover outside the grid that step is skipped and the next step is executed.
+The rover is controlled by a set of instructions in the form of a simple string of letters. The possible letters are ‘L’, ‘R’ and ‘M’. ‘L’ and ‘R’ makes the rover spin 90 degrees left or right respectively, without moving from its current spot. ‘M’ means move forward one grid point, and maintain the same heading. If an instruction takes the rover outside the grid or an obstacle is encountered the rover stops. 
 
-TODO:
+Two rovers can be sent at once.
 
-Rewrite so that multiple rovers can be sent for one grid size input.
 
 USE:
 
-In terminal write node marsRoverNode and follow the prompts for the input. Use the following format:
+In terminal node src/app.js and follow the prompts for the input. Use the following format:
 
 Gridsize: Number Number
 Location: Number Number Direction
