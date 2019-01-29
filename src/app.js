@@ -7,19 +7,20 @@ const Plateau = require('./plateau')
      name: 'gridSize',
      type: 'text',
      message: 'Grid size',
-    //  validate: value => /^\d\s\d\s?$/.test(value) ? value : 'Incorrect Format'
+     validate: gridSize =>  /^\d\s\d$/.test(gridSize) ? gridSize : 'Incorrect Format'
+     //value => /^\d\s\d$/.test(value) ? value : 'Incorrect Format'
 
     }, 
      {
      name: 'locationRoverOne',
      type: 'text',
      message: 'Rover One: Location',
-    //  validate: value => /^\d\s\d\s[NEWS]$/.test(value) ? value : 'Incorrect Format'
+    validate: value => /^\d\s\d\s[NEWS]$/.test(value) ? value : 'Incorrect Format'
     }, {
      name: 'instructionsRoverOne',
      type: 'text',
      message: 'Rover One: Instructions',
-    //  validate: value => /^[LMR]*$/.test(instructions) ? value : 'Incorrect Formt'
+    validate: value => /^[LMR]*$/.test(value) ? value : 'Incorrect Formt'
    },
    {
     name: 'locationRoverTwo',
