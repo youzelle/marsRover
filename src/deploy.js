@@ -13,8 +13,6 @@ function  deployRovers(rovers, plateau) {
         
         //update obstacles in mission data with first two elements of result
         plateau.obstacles.push(result.slice(0,2));
-        //console.log(result.slice(0,2))
-        //console.log(plateau)
 
         missionResults.push(`Rover ${i + 1}: `, result);
     }

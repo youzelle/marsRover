@@ -1,17 +1,15 @@
-//const Plateau = require('./plateau');
-//const Input = require('./input');
-
 const bearings = ['N', 'E', 'S', 'W'];
 
 function isClear(nextMove, coord, plateau) {
   //check if can move
-      for (let i = 0; i < plateau[1].length; i++) {
-        if (nextMove == plateau[1][i][coord]) {
-          console.log('`Obstacle: [${this.xCoordinate},${this.yCoordinate}] cannot move forward`');
+  if (plateau.obstacles.length > 0) {
+      for (let i = 0; i < plateau.obstacles.length; i++) {
+        if (nextMove == plateau.obstacles[i][coord]) {
           return false;
-        }
+        } 
       }
-      return true;
+    } 
+    return true;
 }
 
 class Rover {
@@ -22,13 +20,16 @@ class Rover {
     this.plateau = plateau
   };
 
+
   move () {
     let nextMove;
     let coord;
     let insideBoundaries;
     let changeCoordinate;
-    let maxXCoord = this.plateau[0][0];
-    let maxYCoord = this.plateau[0][1];
+    let maxXCoord = this.plateau.gridSize[0];
+    let maxYCoord = this.plateau.gridSize[1];
+
+
 
     switch (this.direction) {
       case 'W': {
@@ -73,14 +74,13 @@ class Rover {
     }
     
     // Tries to make the move
-    //
     if (insideBoundaries && isClear(nextMove, coord, this.plateau)) {
       changeCoordinate();
     } else {
       return false;
     }
     return [this.xCoordinate, this.yCoordinate];
-  }//
+  };
 
   directionAsNumber(direction) {
     let bearingsIndex = bearings.indexOf(this.direction);
@@ -110,10 +110,5 @@ class Rover {
   }
 
 }
-
-let roverOne = new Rover([1,2], 'N', [[5,5], []]);
-let roverTwo = new Rover([3,3], 'E', [[5,5], []]);
-
-console.log(roverOne.move());
 
 module.exports = Rover;

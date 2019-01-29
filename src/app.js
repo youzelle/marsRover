@@ -10,11 +10,6 @@ const Plateau = require('./plateau')
     //  validate: value => /^\d\s\d\s?$/.test(value) ? value : 'Incorrect Format'
 
     }, 
-    {
-        name: 'obstacles',
-        type: 'text',
-        message: 'Obstacles'
-     }, 
      {
      name: 'locationRoverOne',
      type: 'text',
@@ -44,8 +39,9 @@ prompts(questions).then(function(response) {
         let plateauData = {};
         let missionData = {};
 
-        plateauData.gridSize = response.gridSize.split(' ').map(Number);
-        plateauData.obstacles = (response.obstacles === undefined) ? new Array() : response.obstacles.split(' ').map(Number);
+        plateauData.gridSize = [Number(response.gridSize.split(' ')[0]), Number(response.gridSize.split(' ')[0])];
+        plateauData.obstacles = [];
+
 
         let locatOne = response.locationRoverOne.split(' ');
         let locatTwo = response.locationRoverTwo.split(' ');
@@ -53,13 +49,13 @@ prompts(questions).then(function(response) {
 
         missionData.roverOne = { 
             location: [Number(locatOne[0]), Number(locatOne[1])],
-            direction: [locatOne[2]],
+            direction: locatOne[2],
             instructions: response.instructionsRoverOne
 
         };
         missionData.roverTwo = { 
                 location: [Number(locatTwo[0]), Number(locatTwo[1])],
-                direction: [locatTwo[2]],
+                direction: locatTwo[2],
                 instructions: response.instructionsRoverTwo
     
             };
@@ -69,6 +65,6 @@ prompts(questions).then(function(response) {
         console.log(deployRovers(rovers, plateau));
 
         
-    })
+    }).catch(err => console.log('Error: ', err))
 
   

@@ -19,7 +19,7 @@ function executeInstructions(rover, instructions) {
         }
 
         if(stop) {
-            return [rover.xCoordinate, rover.yCoordinate, rover.direction, 'Obstacle ahead'];
+            return [rover.xCoordinate, rover.yCoordinate, rover.direction, 'Obstacle or boundary ahead'];
         break;
         }
     }

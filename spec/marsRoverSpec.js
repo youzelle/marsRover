@@ -4,12 +4,13 @@ let Plateau = require('../src/plateau');
 let Deploy = require('../src/deploy');
 let Instructions = require('../src/instructions');
 
+
 describe("Rover Methods", function() { 
 
   describe("Turning Left", function() {
   
-      let roverOne = new Rover([1,2], 'N', [[5,5], []]);
-      let roverTwo = new Rover([3,3], 'E', [[5,5], []]);
+      let roverOne = new Rover([1,2], 'N', {gridSize: [5,5], obstacles: []});
+      let roverTwo = new Rover([3,3], 'E', {gridSize: [5,5], obstacles: []});
       Instructions(roverOne, 'L');
       Instructions(roverTwo, 'L');
 
@@ -24,8 +25,8 @@ describe("Rover Methods", function() {
   });
   describe("Turning Right", function() {
 
-      let roverOne = new Rover([1,2], 'N', [[5,5], []]);
-      let roverTwo = new Rover([3,3], 'E', [[5,5], []]);
+      let roverOne = new Rover([1,2], 'N', {gridSize: [5,5], obstacles: []});
+      let roverTwo = new Rover([3,3], 'E', {gridSize: [5,5], obstacles: []});
       Instructions(roverOne, 'R');
       Instructions(roverTwo, 'R');
      
@@ -41,8 +42,8 @@ describe("Rover Methods", function() {
   });
   describe("Moving inside boundary", function() {
 
-      let roverOne = new Rover([1,2], 'N', [[5,5], []]);
-      let roverTwo = new Rover([3,3], 'E', [[5,5], []]);
+      let roverOne = new Rover([1,2], 'N', {gridSize: [5,5], obstacles: []});
+      let roverTwo = new Rover([3,3], 'E', {gridSize: [5,5], obstacles: []});
       Instructions(roverOne, 'M');
       Instructions(roverTwo, 'M');
    
@@ -58,8 +59,8 @@ describe("Rover Methods", function() {
   });
   describe("Moving outside the boundary", function() {
 
-    let roverOne = new Rover([1,5], 'N', [[5,5], []]);
-    let roverTwo = new Rover([5,3], 'E', [[5,5], []]);
+    let roverOne = new Rover([1,5], 'N', {gridSize: [5,5], obstacles: []});
+    let roverTwo = new Rover([5,3], 'E', {gridSize: [5,5], obstacles: []});
     Instructions(roverOne, 'M');
     Instructions(roverTwo, 'M');
   
@@ -75,8 +76,8 @@ describe("Rover Methods", function() {
   });
   describe("Complete execution of instructions", function() {
 
-    let roverOne = new Rover([1,2], 'N', [[5,5], []]);
-    let roverTwo = new Rover([3,3], 'E', [[5,5], []]);
+    let roverOne = new Rover([1,2], 'N', {gridSize: [5,5], obstacles: []});
+    let roverTwo = new Rover([3,3], 'E', {gridSize: [5,5], obstacles: []});
     Instructions(roverOne, 'LMLMLMLMM');
     Instructions(roverTwo, 'MMRMMRMRRM');
   
