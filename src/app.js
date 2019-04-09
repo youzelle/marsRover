@@ -7,31 +7,32 @@ const Plateau = require('./plateau')
      name: 'gridSize',
      type: 'text',
      message: 'Grid size',
-     validate: gridSize =>  /^\d\s\d$/.test(gridSize) ? gridSize : 'Incorrect Format'
-     //value => /^\d\s\d$/.test(value) ? value : 'Incorrect Format'
-
+     //validate: gridSize => gridSize => /^\d\s\d$/.test(gridSize) ? true : 'Incorrect Format',
+     validate: gridSize => /^\d\s\d$/.test(gridSize) || 'Incorrect Format',
     }, 
      {
      name: 'locationRoverOne',
      type: 'text',
      message: 'Rover One: Location',
-    validate: value => /^\d\s\d\s[NEWS]$/.test(value) ? value : 'Incorrect Format'
+    //validate: locationRoverOne => /^\d\s\d\s[NEWS]$/.test(locationRoverOne) ? true : 'Incorrect Format'
+    validate: locationRoverOne => /^\d\s\d\s[NEWS]$/.test(locationRoverOne) || 'Incorrect Format',
     }, {
      name: 'instructionsRoverOne',
      type: 'text',
      message: 'Rover One: Instructions',
-    validate: value => /^[LMR]*$/.test(value) ? value : 'Incorrect Formt'
+    //validate: instructionsRoverOne => /^[LMR]*$/.test(instructionsRoverOne) ? true : 'Incorrect Formt'
+    validate: instructionsRoverOne => /^[LMR]*$/.test(instructionsRoverOne) || 'Incorrect Format',
    },
    {
     name: 'locationRoverTwo',
     type: 'text',
     message: 'Rover Two: Location',
-    //  validate: value => /^\d\s\d\s[NEWS]$/.test(value) ? value : 'Incorrect Format'
+    validate: locationRoverTwo => /^\d\s\d\s[NEWS]$/.test(locationRoverTwo) ? true : 'Incorrect Format'
     }, {
     name: 'instructionsRoverTwo',
     type: 'text',
     message: 'Rover Two: Instructions',
-    //  validate: value => /^[LMR]*$/.test(instructions) ? value : 'Incorrect Formt'
+    validate: instructionsRoverTwo => /^[LMR]*$/.test(instructionsRoverTwo) ? true : 'Incorrect Formt'
     }
 ];
   

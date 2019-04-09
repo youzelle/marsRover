@@ -4,7 +4,6 @@ let Plateau = require('../src/plateau');
 let Deploy = require('../src/deploy');
 let Instructions = require('../src/instructions');
 
-
 describe("Rover Methods", function() { 
 
   describe("Turning Left", function() {
@@ -23,6 +22,7 @@ describe("Rover Methods", function() {
       expect(roverTwo.direction).toEqual('N');
     });
   });
+
   describe("Turning Right", function() {
 
       let roverOne = new Rover([1,2], 'N', {gridSize: [5,5], obstacles: []});
@@ -40,6 +40,7 @@ describe("Rover Methods", function() {
       expect(roverTwo.direction).toEqual('S');
     });
   });
+
   describe("Moving inside boundary", function() {
 
       let roverOne = new Rover([1,2], 'N', {gridSize: [5,5], obstacles: []});
@@ -57,6 +58,7 @@ describe("Rover Methods", function() {
       expect(roverTwo.direction).toEqual('E');
     });
   });
+  
   describe("Moving outside the boundary", function() {
 
     let roverOne = new Rover([1,5], 'N', {gridSize: [5,5], obstacles: []});
@@ -74,6 +76,7 @@ describe("Rover Methods", function() {
       expect(roverTwo.direction).toEqual('E');
     });
   });
+
   describe("Complete execution of instructions", function() {
 
     let roverOne = new Rover([1,2], 'N', {gridSize: [5,5], obstacles: []});
@@ -90,13 +93,32 @@ describe("Rover Methods", function() {
       expect(roverTwo.yCoordinate).toEqual(1);
       expect(roverTwo.direction).toEqual('E');
     });
-  });    
+  });   
+  
+  describe("Complete execution of instructions", function() {
+
+    let roverOne = new Rover([1,2], 'N', {gridSize: [5,5], obstacles: [[0,0]]});
+    let roverTwo = new Rover([3,3], 'E', {gridSize: [5,5], obstacles: [[4,3]]});
+    Instructions(roverOne, 'LMLMLMLMM');
+    Instructions(roverTwo, 'MMRMMRMRRM');
+  
+    it("It should not move", function() {
+
+      expect(roverOne.xCoordinate).toEqual(1);
+      expect(roverOne.yCoordinate).toEqual(3);
+      expect(roverOne.direction).toEqual('N');
+      expect(roverTwo.xCoordinate).toEqual(3);
+      expect(roverTwo.yCoordinate).toEqual(3);
+      expect(roverTwo.direction).toEqual('E');
+    });
+  });
+
 });
 
 
 //tests for obstacles
 
-//validate input
+
 
 
   

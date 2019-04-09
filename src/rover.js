@@ -1,21 +1,32 @@
 const bearings = ['N', 'E', 'S', 'W'];
 
-function isClear(nextMove, coord, plateau) {
-  //check if can move
-  if (plateau.obstacles.length > 0) {
-      for (let i = 0; i < plateau.obstacles.length; i++) {
-        if (nextMove == plateau.obstacles[i][coord]) {
+function arraysEqual(arr1, arr2) {
+  if(arr1.length !== arr2.length)
+      return false;
+  for(var i = arr1.length; i--;) {
+      if(arr1[i] !== arr2[i])
           return false;
-        } 
-      }
+  }
+  return true;
+}
+
+function checkObstacles(nextMove, plateau) {
+  if (plateau.obstacles.length > 0) {
+    return !plateau.obstacles.some((ele) => arraysEqual(nextMove, ele));
     } 
     return true;
+}
+
+function checkBoundary() {
+
 }
 
 class Rover {
   constructor (originalLocation, originalDirection, plateau) {
     this.xCoordinate = originalLocation[0],
     this.yCoordinate = originalLocation[1],
+    this.maxXCoord = plateau.gridSize[0],
+    this.maxYCoord = plateau.gridSize[1],
     this.direction = originalDirection,
     this.plateau = plateau
   };
@@ -23,19 +34,22 @@ class Rover {
 
   move () {
     let nextMove;
-    let coord;
+    //let coord;
     let insideBoundaries;
     let changeCoordinate;
-    let maxXCoord = this.plateau.gridSize[0];
-    let maxYCoord = this.plateau.gridSize[1];
+    //let maxXCoord = this.plateau.gridSize[0];
+    //let maxYCoord = this.plateau.gridSize[1];
 
-
+    //canMove
+    //checkBoundary
+    //checkObstacles
+    //return boolean
 
     switch (this.direction) {
       case 'W': {
-        nextMove = this.xCoordinate - 1;
-        coord = 0;
-        insideBoundaries = nextMove >= 0;
+        nextMove = [this.xCoordinate - 1, this.yCoordinate];
+        //coord = 0;
+        insideBoundaries = nextMove[0] >= 0;
         changeCoordinate = () => {
           this.xCoordinate--;
         };
@@ -43,9 +57,9 @@ class Rover {
         break;
       }
       case 'N': {
-        nextMove = this.yCoordinate + 1;
-        coord = 1;
-        insideBoundaries = nextMove <= maxYCoord;
+        nextMove = [this.xCoordinate, this.yCoordinate + 1];
+        //coord = 1;
+        insideBoundaries = nextMove[1] <= this.maxYCoord;
         changeCoordinate = () => {
           this.yCoordinate++;
         };
@@ -53,9 +67,9 @@ class Rover {
         break;
       }
       case 'E': {
-        nextMove = this.xCoordinate + 1;
-        coord = 0;
-        insideBoundaries = nextMove <= maxXCoord;
+        nextMove = [this.xCoordinate + 1, this.yCoordinate];
+        //coord = 0;
+        insideBoundaries = nextMove[0] <= this.maxXCoord;
         changeCoordinate = () => {
           this.xCoordinate++;
         };
@@ -63,9 +77,9 @@ class Rover {
         break;
       }
       case 'S': {
-        nextMove = this.yCoordinate - 1;
-        coord = 1;
-        insideBoundaries = nextMove >= 0;
+        nextMove = [this.xCoordinate, this.yCoordinate - 1];
+        //coord = 1;
+        insideBoundaries = nextMove[1] >= 0;
         changeCoordinate = () => {
           this.yCoordinate--;
         };
@@ -74,7 +88,7 @@ class Rover {
     }
     
     // Tries to make the move
-    if (insideBoundaries && isClear(nextMove, coord, this.plateau)) {
+    if (insideBoundaries && checkObstacles(nextMove, this.plateau)) {
       changeCoordinate();
     } else {
       return false;
