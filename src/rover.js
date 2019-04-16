@@ -1,108 +1,77 @@
 const bearings = ['N', 'E', 'S', 'W'];
 
-function arraysEqual(arr1, arr2) {
-  if(arr1.length !== arr2.length)
-      return false;
-  for(var i = arr1.length; i--;) {
-      if(arr1[i] !== arr2[i])
-          return false;
+function directionAsNumber(direction) {
+  let bearingsIndex = bearings.indexOf(direction);
+  return bearingsIndex;
+}
+
+function compareArrays(arrOne, arrTwo){
+  let result;
+  
+  arr1.forEach((eleOne) => arrTwo.forEach(eleTwo => {
+    return (eleOne != eleTwo) ? result = false : result = true;
+  }))
+
+  return result;
   }
-  return true;
-}
-
-function checkObstacles(nextMove, plateau) {
-  if (plateau.obstacles.length > 0) {
-    return !plateau.obstacles.some((ele) => arraysEqual(nextMove, ele));
-    } 
-    return true;
-}
-
-function checkBoundary() {
-
-}
 
 class Rover {
-  constructor (originalLocation, originalDirection, plateau) {
+  constructor (originalLocation, direction, plateau) {
     this.xCoordinate = originalLocation[0],
     this.yCoordinate = originalLocation[1],
-    this.maxXCoord = plateau.gridSize[0],
-    this.maxYCoord = plateau.gridSize[1],
-    this.direction = originalDirection,
+    this.direction = direction,
     this.plateau = plateau
   };
 
-
-  move () {
+  nextMove() {
     let nextMove;
-    //let coord;
-    let insideBoundaries;
-    let changeCoordinate;
-    //let maxXCoord = this.plateau.gridSize[0];
-    //let maxYCoord = this.plateau.gridSize[1];
-
-    //canMove
-    //checkBoundary
-    //checkObstacles
-    //return boolean
-
     switch (this.direction) {
-      case 'W': {
+      case 'W': 
         nextMove = [this.xCoordinate - 1, this.yCoordinate];
-        //coord = 0;
-        insideBoundaries = nextMove[0] >= 0;
-        changeCoordinate = () => {
-          this.xCoordinate--;
-        };
-
         break;
-      }
-      case 'N': {
+      case 'N': 
         nextMove = [this.xCoordinate, this.yCoordinate + 1];
-        //coord = 1;
-        insideBoundaries = nextMove[1] <= this.maxYCoord;
-        changeCoordinate = () => {
-          this.yCoordinate++;
-        };
-
         break;
-      }
-      case 'E': {
+      case 'E': 
         nextMove = [this.xCoordinate + 1, this.yCoordinate];
-        //coord = 0;
-        insideBoundaries = nextMove[0] <= this.maxXCoord;
-        changeCoordinate = () => {
-          this.xCoordinate++;
-        };
-
         break;
-      }
-      case 'S': {
+      case 'S':
         nextMove = [this.xCoordinate, this.yCoordinate - 1];
-        //coord = 1;
-        insideBoundaries = nextMove[1] >= 0;
-        changeCoordinate = () => {
-          this.yCoordinate--;
-        };
         break;
       }
+
+      return nextMove;
     }
-    
-    // Tries to make the move
-    if (insideBoundaries && checkObstacles(nextMove, this.plateau)) {
-      changeCoordinate();
+
+  checkNoObstacles() {
+    if (this.plateau.obstacles.length > 0) {
+      return !this.plateau.obstacles.some(ele => compareArrays(this.nextMove(), ele));
+      } 
+      return true;
+  }
+
+  checkInsideBoundaries() {
+    if (this.nextMove().every((ele) => ele >= 0) && this.nextMove().every((ele, idx) =>
+    ele <=  this.plateau.gridSize[idx])) {
+      return true;
     } else {
       return false;
     }
-    return [this.xCoordinate, this.yCoordinate];
-  };
+  }
 
-  directionAsNumber(direction) {
-    let bearingsIndex = bearings.indexOf(this.direction);
-    return bearingsIndex;
+  move () {
+    if (this.checkInsideBoundaries() && this.checkNoObstacles()) {
+      this.xCoordinate = this.nextMove()[0];
+      this.yCoordinate = this.nextMove()[1];
+      return [this.xCoordinate, this.yCoordinate];
+    } else {
+      return false;
+    }
+
   }
 
   turnLeft() {
-    let bearingsIndex = this.directionAsNumber(this.direction)
+    let bearingsIndex = directionAsNumber(this.direction)
     if(bearingsIndex > 0) {
       bearingsIndex = bearingsIndex - 1;
     } else {
@@ -113,7 +82,7 @@ class Rover {
   }
 
   turnRight() {
-    let bearingsIndex = this.directionAsNumber(this.direction)
+    let bearingsIndex = directionAsNumber(this.direction)
     if(bearingsIndex < bearings.length - 1 ) {
       bearingsIndex = bearingsIndex + 1;
     } else {
