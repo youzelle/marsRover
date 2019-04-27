@@ -7,11 +7,11 @@ function  deployRovers(rovers, plateau) {
     for (let i = 0; i < rovers.length; i++) {
         let rover = new Rover(rovers[i].location, rovers[i].direction, plateau );
 
-        let result = Instructions(rover, rovers[i].instructions);
+        let finalCoord = Instructions(rover, rovers[i].instructions);
         
-        plateau.obstacles.push(result.slice(0,2));
+        plateau.obstacles.push([finalCoord.x, finalCoord.y]);
 
-        missionResults.push(`Rover ${i + 1}: `, result);
+        missionResults.push(`Rover ${i + 1}: `, finalCoord);
     }
     return missionResults;
 }

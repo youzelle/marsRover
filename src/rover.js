@@ -7,8 +7,8 @@ function directionAsNumber(direction) {
 
 function compareArrays(arrOne, arrTwo){
   let result;
-  
-  arr1.forEach((eleOne) => arrTwo.forEach(eleTwo => {
+
+  arrOne.forEach((eleOne) => arrTwo.forEach(eleTwo => {
     return (eleOne != eleTwo) ? result = false : result = true;
   }))
 
@@ -51,15 +51,10 @@ class Rover {
   }
 
   checkInsideBoundaries() {
-    if (this.nextMove().every((ele) => ele >= 0) && this.nextMove().every((ele, idx) =>
-    ele <=  this.plateau.gridSize[idx])) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.nextMove().every((ele, idx) => ele >= 0 && ele <= this.plateau.gridSize[idx]) ? true : false;
   }
 
-  move () {
+  move() {
     if (this.checkInsideBoundaries() && this.checkNoObstacles()) {
       this.xCoordinate = this.nextMove()[0];
       this.yCoordinate = this.nextMove()[1];
@@ -67,7 +62,6 @@ class Rover {
     } else {
       return false;
     }
-
   }
 
   turnLeft() {

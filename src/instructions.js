@@ -19,12 +19,23 @@ function executeInstructions(rover, instructions) {
         }
 
         if(stop) {
-            return [rover.xCoordinate, rover.yCoordinate, rover.direction, 'Obstacle or boundary ahead'];
-        break;
+            //return [rover.xCoordinate, rover.yCoordinate, rover.direction, 'Obstacle or boundary ahead'];
+            return {
+                    "x": rover.xCoordinate,
+                    "y": rover.yCoordinate,
+                    "direction": rover.direction,
+                    "message": "Obstacle or boundary ahead"
+            }
         }
     }
 
-    return [rover.xCoordinate, rover.yCoordinate, rover.direction];
+    //return [rover.xCoordinate, rover.yCoordinate, rover.direction];
+    return {
+        "x": rover.xCoordinate,
+        "y": rover.yCoordinate,
+        "direction": rover.direction,
+        "message": "Mission complete"
+}
 }
 
 module.exports = executeInstructions;
