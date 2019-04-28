@@ -1,89 +1,56 @@
-const bearings = ['N', 'E', 'S', 'W'];
-
-function directionAsNumber(direction) {
-  let bearingsIndex = bearings.indexOf(direction);
-  return bearingsIndex;
-}
-
-function compareArrays(arrOne, arrTwo){
-  let result;
-
-  arrOne.forEach((eleOne) => arrTwo.forEach(eleTwo => {
-    return (eleOne != eleTwo) ? result = false : result = true;
-  }))
-
-  return result;
-  }
+const {compareArrays} = require('./utils')
 
 class Rover {
-  constructor (originalLocation, direction, plateau) {
-    this.xCoordinate = originalLocation[0],
-    this.yCoordinate = originalLocation[1],
+  constructor (coordinates, direction, plateauInfo) {
+    this.xCoordinate = coordinates[0],
+    this.yCoordinate = coordinates[1],
     this.direction = direction,
-    this.plateau = plateau
+    this.plateauInfo = plateauInfo,
+    this.canMove = true
   };
 
   nextMove() {
-    let nextMove;
     switch (this.direction) {
       case 'W': 
-        nextMove = [this.xCoordinate - 1, this.yCoordinate];
-        break;
+        return [this.xCoordinate - 1, this.yCoordinate];
       case 'N': 
-        nextMove = [this.xCoordinate, this.yCoordinate + 1];
-        break;
+        return [this.xCoordinate, this.yCoordinate + 1];
       case 'E': 
-        nextMove = [this.xCoordinate + 1, this.yCoordinate];
-        break;
+        return [this.xCoordinate + 1, this.yCoordinate];
       case 'S':
-        nextMove = [this.xCoordinate, this.yCoordinate - 1];
-        break;
+        return [this.xCoordinate, this.yCoordinate - 1];
       }
-
-      return nextMove;
     }
 
-  checkNoObstacles() {
-    if (this.plateau.obstacles.length > 0) {
-      return !this.plateau.obstacles.some(ele => compareArrays(this.nextMove(), ele));
-      } 
-      return true;
+  areAnyObstacles() {
+      return this.plateauInfo.obstacles.some(coordinates => compareArrays(this.nextMove(), coordinates));
   }
 
   checkInsideBoundaries() {
-    return this.nextMove().every((ele, idx) => ele >= 0 && ele <= this.plateau.gridSize[idx]) ? true : false;
+    return this.nextMove().every((coordinate, idx) => coordinate >= 0 && coordinate <= this.plateauInfo.maxCoordinates[idx]) ? true : false;
   }
 
   move() {
-    if (this.checkInsideBoundaries() && this.checkNoObstacles()) {
+    if (this.checkInsideBoundaries() && !this.areAnyObstacles()) {
       this.xCoordinate = this.nextMove()[0];
       this.yCoordinate = this.nextMove()[1];
-      return [this.xCoordinate, this.yCoordinate];
     } else {
-      return false;
+      this.canMove = false;
     }
+  }
+
+  nextDirection(moduloNumber) {
+    let compass = ['N', 'E', 'S', 'W'];
+    let current = compass.indexOf(this.direction);
+    this.direction = compass[(current + moduloNumber) % 4];
   }
 
   turnLeft() {
-    let bearingsIndex = directionAsNumber(this.direction)
-    if(bearingsIndex > 0) {
-      bearingsIndex = bearingsIndex - 1;
-    } else {
-      bearingsIndex = bearings.length - 1;
-    }
-    this.direction = bearings[bearingsIndex];
-    return this.direction;
+    this.nextDirection(3);
   }
 
   turnRight() {
-    let bearingsIndex = directionAsNumber(this.direction)
-    if(bearingsIndex < bearings.length - 1 ) {
-      bearingsIndex = bearingsIndex + 1;
-    } else {
-      bearingsIndex = 0;
-    }
-    this.direction = bearings[bearingsIndex];
-    return this.direction;
+    this.nextDirection(1);
   }
 
 }

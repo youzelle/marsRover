@@ -1,22 +1,23 @@
-const plateauData = {
-    gridSize: [5,5],
-    obstacles: [],
+const {validateCoordinates, validateDirection, validateInstructions} = require('./utils')
+const deployRover = require('./deploy');
+
+function main(roversInfoArr, plateauInfo) {
+    roversInfoArr.forEach((roverInfo) => {
+        if (!validateCoordinates(roverInfo.coordinates)) {
+            throw new Error('Invalid rover coordinates')
+        } else if (!validateDirection(roverInfo.direction)) {
+            throw new Error('Invalid rover direction');
+        } else if (!validateInstructions(roverInfo.instructions)) {
+            throw new Error('Invalid rover instructions')
+        }
+    })
+
+    if (!validateCoordinates(plateauInfo.coordinates)) {
+        throw new Error('Invalid plateau coordinates, must be two numbers!')
+    } 
+
+    return deployRover(roversInfoArr, plateauInfo);
+
 }
 
-const missionData = {
-  roverOne: {
-      location: [1, 2],
-      direction: 'N',
-      instructions: 'LMLMLMLMM'
-  },
-  roverTwo: {
-      location: [3, 3],
-      direction: 'E',
-      instructions: 'MMRMMRMRRM'
-  }
-}
-
-module.exports = {
-    missionData,
-    plateauData
-}
+module.exports = main;

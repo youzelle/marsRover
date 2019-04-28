@@ -1,15 +1,13 @@
-let Input = require('../src/input');
 let Rover = require('../src/rover');
-let Plateau = require('../src/plateau');
-let Deploy = require('../src/deploy');
 let Instructions = require('../src/instructions');
+let Deploy = require('../src/deploy')
 
 describe("Rover Methods", function() { 
 
   describe("Turning Left", function() {
   
-      let roverOne = new Rover([1,2], 'N', {gridSize: [5,5], obstacles: []});
-      let roverTwo = new Rover([3,3], 'E', {gridSize: [5,5], obstacles: []});
+      let roverOne = new Rover([1,2], 'N', {maxCoordinates: [5,5], obstacles: []});
+      let roverTwo = new Rover([3,3], 'E', {maxCoordinates: [5,5], obstacles: []});
       Instructions(roverOne, 'L');
       Instructions(roverTwo, 'L');
 
@@ -25,8 +23,8 @@ describe("Rover Methods", function() {
 
   describe("Turning Right", function() {
 
-      let roverOne = new Rover([1,2], 'N', {gridSize: [5,5], obstacles: []});
-      let roverTwo = new Rover([3,3], 'E', {gridSize: [5,5], obstacles: []});
+      let roverOne = new Rover([1,2], 'N', {maxCoordinates: [5,5], obstacles: []});
+      let roverTwo = new Rover([3,3], 'E', {maxCoordinates: [5,5], obstacles: []});
       Instructions(roverOne, 'R');
       Instructions(roverTwo, 'R');
      
@@ -43,8 +41,8 @@ describe("Rover Methods", function() {
 
   describe("Moving inside boundary", function() {
 
-      let roverOne = new Rover([1,2], 'N', {gridSize: [5,5], obstacles: []});
-      let roverTwo = new Rover([3,3], 'E', {gridSize: [5,5], obstacles: []});
+      let roverOne = new Rover([1,2], 'N', {maxCoordinates: [5,5], obstacles: []});
+      let roverTwo = new Rover([3,3], 'E', {maxCoordinates: [5,5], obstacles: []});
       Instructions(roverOne, 'M');
       Instructions(roverTwo, 'M');
    
@@ -61,8 +59,8 @@ describe("Rover Methods", function() {
   
   describe("Moving outside the boundary", function() {
 
-    let roverOne = new Rover([1,5], 'N', {gridSize: [5,5], obstacles: []});
-    let roverTwo = new Rover([5,3], 'E', {gridSize: [5,5], obstacles: []});
+    let roverOne = new Rover([1,5], 'N', {maxCoordinates: [5,5], obstacles: []});
+    let roverTwo = new Rover([5,3], 'E', {maxCoordinates: [5,5], obstacles: []});
     Instructions(roverOne, 'M');
     Instructions(roverTwo, 'M');
   
@@ -79,8 +77,8 @@ describe("Rover Methods", function() {
 
   describe("Complete execution of instructions", function() {
 
-    let roverOne = new Rover([1,2], 'N', {gridSize: [5,5], obstacles: []});
-    let roverTwo = new Rover([3,3], 'E', {gridSize: [5,5], obstacles: []});
+    let roverOne = new Rover([1,2], 'N', {maxCoordinates: [5,5], obstacles: []});
+    let roverTwo = new Rover([3,3], 'E', {maxCoordinates: [5,5], obstacles: []});
     Instructions(roverOne, 'LMLMLMLMM');
     Instructions(roverTwo, 'MMRMMRMRRM');
   
@@ -97,8 +95,8 @@ describe("Rover Methods", function() {
   
   describe("Complete execution of instructions", function() {
 
-    let roverOne = new Rover([1,2], 'N', {gridSize: [5,5], obstacles: [[0,0]]});
-    let roverTwo = new Rover([3,3], 'E', {gridSize: [5,5], obstacles: [[4,3]]});
+    let roverOne = new Rover([1,2], 'N', {maxCoordinates: [5,5], obstacles: [[0,0]]});
+    let roverTwo = new Rover([3,3], 'E', {maxCoordinates: [5,5], obstacles: [[4,3]]});
     Instructions(roverOne, 'LMLMLMLMM');
     Instructions(roverTwo, 'MMRMMRMRRM');
   
@@ -113,10 +111,22 @@ describe("Rover Methods", function() {
     });
   });
 
+  describe("Deploy multiple rovers", function() {
+
+    const roverOne = {coordinates: [1, 2], direction: 'N', instructions: 'LMLMLMLMM'};
+    const roverTwo = {coordinates: [3, 3], direction: 'E', instructions: 'MMRMMRMRRM'};
+    const plateau = {maxCoordinates: [5,5], obstacles: []}
+    const rovers = [roverOne, roverTwo];
+    const deployResults = Deploy(rovers, plateau);
+  
+    it("should results for each rover", function() {
+
+      expect(deployResults[0][1]).toEqual({ x: 1, y: 3, direction: 'N', message: 'Mission complete' });
+      expect(deployResults[1][1]).toEqual({ x: 3, y: 3, direction: 'E', message: 'Obstacle or boundary ahead' });
+    });
+  });
+
 });
-
-
-//tests for obstacles
 
 
 

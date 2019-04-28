@@ -1,6 +1,6 @@
 class Plateau {
-    constructor(gridSize, obstacles) {
-        this.gridSize = gridSize,
+    constructor(maxCoordinates, obstacles) {
+        this.maxCoordinates = maxCoordinates,
         this.obstacles = obstacles
     }
 }
