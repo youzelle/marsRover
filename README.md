@@ -10,6 +10,10 @@ You will need node and npm. Type npm install.
 TESTS: 
 marsRover directory run npm run test from command line
 
-To Do:
-Simplify user input
-Travel log
+USER INPUT
+marsRover directory run npm start from command line. Input should be in the form
+
+Coordinates: Number Number
+Direction: N, E, S or W
+Instructions: L, M or R
+

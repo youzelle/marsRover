@@ -4,11 +4,11 @@ const deployRover = require('./deploy');
 function main(roversInfoArr, plateauInfo) {
     roversInfoArr.forEach((roverInfo) => {
         if (!validateCoordinates(roverInfo.coordinates)) {
-            throw new Error('Invalid rover coordinates')
+            throw new Error('Invalid rover coordinates, must be two numbers')
         } else if (!validateDirection(roverInfo.direction)) {
-            throw new Error('Invalid rover direction');
+            throw new Error('Invalid rover direction, must be N, E, S or W');
         } else if (!validateInstructions(roverInfo.instructions)) {
-            throw new Error('Invalid rover instructions')
+            throw new Error('Invalid rover instructions, must be L, M or R')
         }
     })
 

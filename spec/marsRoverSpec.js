@@ -1,17 +1,21 @@
 let Rover = require('../src/rover');
 let Instructions = require('../src/instructions');
-let Deploy = require('../src/deploy')
+let Deploy = require('../src/deploy');
+let app = require('../src/app');
 
 describe("Rover Methods", function() { 
 
   describe("Turning Left", function() {
-  
-      let roverOne = new Rover([1,2], 'N', {maxCoordinates: [5,5], obstacles: []});
-      let roverTwo = new Rover([3,3], 'E', {maxCoordinates: [5,5], obstacles: []});
+      // Arrange
+      const roverOne = new Rover([1,2], 'N', {maxCoordinates: [5,5], obstacles: []});
+      const roverTwo = new Rover([3,3], 'E', {maxCoordinates: [5,5], obstacles: []});
+      
+      // Act
       Instructions(roverOne, 'L');
       Instructions(roverTwo, 'L');
 
     it("Only changes direction", function() {
+      // Assert
       expect(roverOne.xCoordinate).toEqual(1);
       expect(roverOne.yCoordinate).toEqual(2);
       expect(roverOne.direction).toEqual('W');
@@ -23,8 +27,8 @@ describe("Rover Methods", function() {
 
   describe("Turning Right", function() {
 
-      let roverOne = new Rover([1,2], 'N', {maxCoordinates: [5,5], obstacles: []});
-      let roverTwo = new Rover([3,3], 'E', {maxCoordinates: [5,5], obstacles: []});
+      const roverOne = new Rover([1,2], 'N', {maxCoordinates: [5,5], obstacles: []});
+      const roverTwo = new Rover([3,3], 'E', {maxCoordinates: [5,5], obstacles: []});
       Instructions(roverOne, 'R');
       Instructions(roverTwo, 'R');
      
@@ -100,7 +104,7 @@ describe("Rover Methods", function() {
     Instructions(roverOne, 'LMLMLMLMM');
     Instructions(roverTwo, 'MMRMMRMRRM');
   
-    it("It should not move", function() {
+    it("should stop the second rover moving", function() {
 
       expect(roverOne.xCoordinate).toEqual(1);
       expect(roverOne.yCoordinate).toEqual(3);
@@ -122,7 +126,7 @@ describe("Rover Methods", function() {
     it("should results for each rover", function() {
 
       expect(deployResults[0][1]).toEqual({ x: 1, y: 3, direction: 'N', message: 'Mission complete' });
-      expect(deployResults[1][1]).toEqual({ x: 3, y: 3, direction: 'E', message: 'Obstacle or boundary ahead' });
+      expect(deployResults[1][1]).toEqual({ x: 5, y: 1, direction: 'E', message: 'Mission complete' });
     });
   });
 

@@ -1,15 +1,15 @@
-function compareArrays(arrOne, arrTwo){
-    let result;
-  
-    arrOne.forEach((eleOne) => arrTwo.forEach(eleTwo => {
-      return (eleOne != eleTwo) ? result = false : result = true;
-    }))
-  
-    return result;
+const Plateau = require('./plateau')
+
+// ROVER
+
+function compareArrayEle(arrOne, arrTwo){
+    return arrOne[0] === arrTwo[0] && arrOne[1] == arrTwo[1];
   }
 
+  // VALIDATION
+
 function validateCoordinates(coordinates) {
-  return /^\d+\s*\,\d+\s*$/.test(coordinates.join());
+  return /^\d+\s\d+$/.test(coordinates);
 }
 
 function validateDirection(direction) {
@@ -20,9 +20,32 @@ function validateInstructions(instructions) {
   return /^[LMR]*$/.test(instructions);
 }
 
+// CLEAN INPUT
+
+function processPlateauInfo(plateauInfo) {
+  let plateauData = {};
+
+  plateauData.maxCoordinates = [Number(plateauInfo.split(' ')[0]), Number(plateauInfo.split(' ')[0])];
+  plateauData.obstacles = [];
+
+  return new Plateau(plateauData.maxCoordinates, plateauData.obstacles);
+}
+
+function processRoverInfo(coords, direction, instructions) {
+ const coordinates = coords.split(' ');
+
+  return { 
+     coordinates: [Number(coordinates[0]), Number(coordinates[1])],
+     direction: direction,
+     instructions: instructions
+ };
+}
+
 module.exports = {
-              compareArrays,
+              compareArrayEle,
               validateCoordinates,
               validateDirection,
-              validateInstructions
+              validateInstructions,
+              processPlateauInfo,
+              processRoverInfo
 }

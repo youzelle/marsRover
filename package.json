@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node src/app.js",
-    "test": "jasmine spec/*Spec.js"
+    "test": "nyc --reporter=html jasmine spec/*Spec.js"
   },
   "repository": {
     "type": "git",
@@ -24,5 +24,8 @@
     "colors": "^1.3.3",
     "jasmine": "^3.3.1",
     "prompts": "^2.0.1"
+  },
+  "devDependencies": {
+    "nyc": "^14.0.0"
   }
 }

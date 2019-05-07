@@ -1,4 +1,4 @@
-const {compareArrays} = require('./utils')
+const {compareArrayEle} = require('./utils')
 
 class Rover {
   constructor (coordinates, direction, plateauInfo) {
@@ -23,7 +23,7 @@ class Rover {
     }
 
   areAnyObstacles() {
-      return this.plateauInfo.obstacles.some(coordinates => compareArrays(this.nextMove(), coordinates));
+      return this.plateauInfo.obstacles.some(coordinates => compareArrayEle(this.nextMove(), coordinates));
   }
 
   checkInsideBoundaries() {
@@ -39,6 +39,10 @@ class Rover {
     }
   }
 
+  //Use modulo maths to loop around the array
+  //Parameters are chosen so that if current variable is
+  //increased or decreased this.direction will always be 0, 1, 2 or 3
+  
   nextDirection(moduloNumber) {
     let compass = ['N', 'E', 'S', 'W'];
     let current = compass.indexOf(this.direction);
